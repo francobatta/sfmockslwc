@@ -1,0 +1,80 @@
+<aura:component
+  controller="SimuladorFullController"
+  implements="force:hasRecordId"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:attribute name="username" type="String" />
+  <aura:attribute name="simulDate" type="Date" />
+
+  <aura:attribute name="salesData" type="List" />
+  <aura:attribute name="customSalesData" type="List" />
+
+  <aura:attribute name="currentProgressStep" type="String" default="1" />
+  <aura:attribute name="totalSales" type="Decimal" default="0" />
+
+  <lightning:layout class="slds-wrap" verticalAlign="center">
+    <lightning:layoutItem size="9">
+      <div class="slds-illustration slds-illustration_small">
+        <div class="slds-text-longform">
+          <div class="slds-text-heading_large">Vista de comisiones</div>
+          <div class="slds-text-body_regular">
+            <!--<p>Panel de comisiones de {!v.username}</p>-->
+            <p>Panel de comisiones de %usuario%</p>
+          </div>
+        </div>
+      </div>
+    </lightning:layoutItem>
+    <lightning:layoutItem>
+      <lightning:input
+        type="date"
+        name="mesDeSimulacion"
+        placeholder="Periodo de simulación"
+        onchange="{!c.doInit}"
+        value="{!v.simulDate}"
+        disabled="{!not(equals(v.currentProgressStep,'1'))}"
+      />
+    </lightning:layoutItem>
+  </lightning:layout>
+  <lightning:progressIndicator
+    title="Pasos para visualizar tu simulación"
+    type="path"
+    variant="base"
+    currentStep="{!v.currentProgressStep}"
+  >
+    <lightning:progressStep
+      label="Ver ventas reales del periodo seleccionado"
+      value="1"
+      onclick="{!c.onProgressClickHandler}"
+    />
+    <lightning:progressStep
+      label="Agregar ventas por producto"
+      value="2"
+      onclick="{!c.onProgressClickHandler}"
+    />
+    <lightning:progressStep
+      label="Agregar comisiones precalculadas"
+      value="3"
+      onclick="{!c.onProgressClickHandler}"
+    />
+    <lightning:progressStep
+      label="Ver resultado final"
+      value="4"
+      onclick="{!c.onProgressClickHandler}"
+    />
+  </lightning:progressIndicator>
+
+  <!-- End common header -->
+
+  <aura:if isTrue="{!equals(v.currentProgressStep,'1')}">
+    <c:salesDataTable totalSales="{!v.totalSales}" salesData="{!v.salesData}"/>
+  </aura:if>
+  <aura:if isTrue="{!equals(v.currentProgressStep,'2')}">
+    <c:createSale customSalesData="{!v.customSalesData}" />
+  </aura:if>
+  <aura:if isTrue="{!equals(v.currentProgressStep,'3')}">
+    <c:precalculadas customSalesData="{!v.customSalesData}" />
+  </aura:if>
+  <aura:if isTrue="{!equals(v.currentProgressStep,'4')}">
+    <c:finalSimulation salesData="{!v.salesData}" customSalesData="{!v.customSalesData}" simulDate="{!v.simulDate}" />
+  </aura:if>
+</aura:component>

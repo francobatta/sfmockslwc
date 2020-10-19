@@ -1,0 +1,10 @@
+<aura:component>
+	<aura:attribute name="cardTitle" type="String" />
+	<aura:attribute name="cardContent" type="String" />
+
+	<lightning:card title="{!v.cardTitle}">
+        <div class="slds-text-align_center" style="font-size: 2rem">
+          <p>{!v.cardContent}</p>
+        </div>
+      </lightning:card>
+</aura:component>	

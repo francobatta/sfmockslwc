@@ -1,0 +1,176 @@
+<aura:component controller="SimuladorFullController">
+	<ltng:require styles="/resource/Chartjs/Chart.css" scripts='/resource/Chartjs/Chart.bundle.js' />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:attribute name="username" type="String"/>
+
+	<aura:attribute name="columns" type="List" default="[{'fieldName':'indexCol1','label':'Producto','type':'text'},{'fieldName':'indexCol2','label':'Unidades vendidas','type':'text'},{'fieldName':'indexCol3','label':'Precio unitario','type':'text'}]" />
+	<aura:attribute name="data" type="List" default="[{'indexCol1':'','indexCol2':'','indexCol3':''}]" />
+	<aura:attribute name="currentProgressStep" type="String" default="2" />
+
+	<lightning:layout class="slds-wrap" multipleRows="true">
+		<lightning:layoutItem size="12">
+			<div class="slds-illustration slds-illustration_small">
+				<div class="slds-text-longform">
+					<div class="slds-text-heading_medium">Calculadora de comisiones</div>
+					<div class="slds-text-body_regular" style="font-size: 0.8125rem;">
+						<p>Panel de comisiones de {!v.username}</p>
+					</div>
+				</div>
+			</div>
+		</lightning:layoutItem>
+	</lightning:layout>
+	<lightning:progressIndicator title="Pasos para visualizar tu simulación" type="path" variant="base" currentStep="{!v.currentProgressStep}">
+		<lightning:progressStep label="Ver ventas del mes actual" value="1"  />
+		<lightning:progressStep label="Agregar ventas por producto" value="2" />
+		<lightning:progressStep label="Agregar ventas precalculadas" value="3" />
+	</lightning:progressIndicator>
+	<div class="slds-progress slds-progress_vertical ">
+		<ol class="slds-progress__list">
+			<li class="slds-progress__item slds-is-active">
+				<div class="slds-progress__marker"></div>
+				<div class="slds-progress__item_content">
+					<div title="Ventas del mes actual">
+						<div class="slds-show_medium slds-page-header">
+							<div class="slds-page-header__row">
+								<div class="slds-page-header__col-title">
+									<div class="slds-media">
+										<div class="slds-media__figure"><lightning:icon iconName="action:approval" size="small" alternativeText="Indicates approval"/></div>
+										<div
+											class="slds-media__body">
+											<div class="slds-page-header__name">
+												<div class="slds-page-header__name-title">
+													<h1><span>Venta</span><span class="slds-page-header__title slds-truncate" title="Ventas del mes actual">Ventas del mes actual</span></h1>
+												</div>
+												<div class="slds-page-header__name-switcher">
+													<div class="slds-dropdown-trigger slds-dropdown-trigger_click"><button aria-haspopup="true" class="slds-button slds-button_icon slds-button_icon-small" title="Switch list view" /></div>
+												</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-page-header__row">
+							<div class="slds-page-header__col-meta">
+								<p class="slds-page-header__meta-text">10 items • Updated 13 minutes ago</p>
+							</div>
+						</div>
+					</div>
+					<div class="slds-col slds-no-space slds-show_medium">
+						<div class="slds-table_edit_container slds-is-relative">
+							<div class="scrollable uiScroller scroller-wrapper scroll-bidirectional">
+								<div class="scroller actionBarPlugin fixedHeaderPlugin">
+									<table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+										<thead>
+											<tr>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Nombre del vendedor</div>
+												</th>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Fecha</div>
+												</th>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Estado</div>
+												</th>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Cantidad vendida</div>
+												</th>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Precio unitario ($)</div>
+												</th>
+												<th class="slds-has-flexi-truncate">
+													<div class="slds-truncate">Total</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<div class="slds-truncate">%vendedor_name%</div>
+												</td>
+												<td>
+													<div class="slds-truncate">10/09/2020</div>
+												</td>
+												<td>
+													<div class="slds-truncate">Cerrada</div>
+												</td>
+												<td>
+													<div class="slds-truncate">3</div>
+												</td>
+												<td>
+													<div class="slds-truncate">500</div>
+												</td>
+												<td>
+													<div class="slds-truncate">1500</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="slds-card slds-card_boundary slds-hide_medium">
+						<div class="slds-card__body slds-card__body_inner">
+							<div class="slds-m-top_small slds-m-bottom_small">
+								<div class="slds-media">
+									<div class="slds-media__figure"><span class="slds-icon_container slds-icon-standard-investment-account">    <lightning:icon iconName="action:approval" size="small" alternativeText="Indicates approval"/>
+									</span></div>
+									<div
+										class="slds-media__body">
+										<div class="slds-text-heading_medium">Recently Viewed</div>
+										<div class="slds-m-top_x-small">10 items • Updated 13 minutes ago</div>
+								</div>
+							</div>
+						</div>
+						<ul class="slds-has-dividers_top-space">
+							<li class="slds-item">
+								<div class="slds-text-heading_small slds-truncate">%vendedor_name% </div>
+								<div class="slds-region_narrow" style="width:360px">
+									<dl class="slds-dl_horizontal"><dt class="slds-dl_horizontal__label">Nombre del vendedor</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">%vendedor_name% </dd><dt class="slds-dl_horizontal__label">Fecha</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">10/09/2020 </dd><dt class="slds-dl_horizontal__label">Estado</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">Cerrada </dd><dt class="slds-dl_horizontal__label">Cantidad vendida</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">3 </dd><dt class="slds-dl_horizontal__label">Precio unitario ($)</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">500 </dd><dt class="slds-dl_horizontal__label">Total</dt>
+										<dd class="slds-dl_horizontal__detail slds-truncate">1500 </dd>
+									</dl>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+	</div>
+	</div>
+	</li>
+	<li class="slds-progress__item ">
+		<div class="slds-progress__marker"></div>
+		<div class="slds-progress__item_content">
+			<lightning:input type="checkbox-button" label="Agregar nuevo producto"></lightning:input>
+			<lightning:datatable columns="{!v.columns}" keyField="" data="{!v.data}"></lightning:datatable>
+		</div>
+	</li>
+	<li class="slds-progress__item ">
+		<div class="slds-progress__marker"></div>
+		<div class="slds-progress__item_content">
+			<lightning:input label="Ventas precalculadas" placeholder="Ingresar monto ($)" type="text" variant="standard" />
+		</div>
+	</li>
+	</ol>
+	</div>
+	<lightning:layout class="slds-wrap" multipleRows="true">
+		<lightning:layoutItem size="4">
+			un chartjs
+		</lightning:layoutItem>
+		<lightning:layoutItem size="4">
+			<lightning:card title="Resultado" iconName="utility:rating" variant="base">
+				<div class="slds-card__body_inner">
+						<p>Resultado del vendedor</p>
+				</div>
+			</lightning:card>
+		</lightning:layoutItem>
+		<lightning:layoutItem size="4">
+			un chartjs
+		</lightning:layoutItem>
+	</lightning:layout>
+</aura:component>

@@ -1,0 +1,31 @@
+<aura:component>
+  <aura:attribute
+    name="columns"
+    type="List"
+    default="[{'fieldName':'Nro_Factura__c','label':'Nº Factura','type':'number'}, {'fieldName':'Nro_Recibo__c','label':'Nº Recibo','type':'number'}, {'fieldName':'Producto__c','label':'Nº Producto','type':'text'}, {'fieldName':'Base_de_comision__c','label':'Base de comisión',type: 'currency', typeAttributes: { currencyCode: 'ARS', maximumSignificantDigits: 6}}, {'fieldName':'Porcentaje_comision__c','label':'% comisión','type':'percentage'}, {'fieldName':'Monto_comision__c','label':'Monto de comisión',type: 'currency', typeAttributes: { currencyCode: 'ARS', maximumSignificantDigits: 6}}, {'fieldName':'Medio_de_pago__c','label':'Medio de pago','type':'text'}]"
+  />
+  <aura:attribute name="totalSales" type="Decimal" default="0" />
+  <aura:attribute name="salesData" type="List" />
+
+  <lightning:layout multipleRows="true" horizontalAlign="center">
+    <lightning:layoutItem size="12" padding="around-small">
+      <lightning:datatable
+        keyField="Id"
+        data="{!v.salesData}"
+        columns="{!v.columns}"
+        hideCheckboxColumn="true"
+      />
+    </lightning:layoutItem>
+    <lightning:layoutItem size="3" padding="around-small">
+      <lightning:card
+        variant="Narrow"
+        title="Total de ventas en el periodo seleccionado"
+        iconName="action:preview"
+      >
+        <div class="slds-text-align_center" style="font-size: 2rem">
+          <p>${!v.totalSales}</p>
+        </div>
+      </lightning:card>
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

@@ -1,0 +1,94 @@
+<aura:component>
+  <ltng:require
+    scripts="{!$Resource.Chartjs+ '/Chart.min.js'}"
+    afterScriptsLoaded="{!c.doInit}" />
+
+  <!-- 
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+-->
+  <!-- Input attr-->
+  <aura:attribute name="salesData" type="List" />
+  <aura:attribute name="customSalesData" type="List" />
+  <aura:attribute name="allTheSalesData" type="List" />
+  <aura:attribute name="simulDate" type="Date" />
+
+  <!-- Show attr -->
+  <aura:attribute name="periodOfSimulDate" type="String" />
+
+  <aura:attribute name="totalSales" type="String" default="-" />
+  <aura:attribute name="totalProductSales" type="String" default="-" />
+  <aura:attribute name="salesNoProduct" type="String" default="-" />
+  <aura:attribute name="mostComisionesProduct" type="String" default="-" />
+  <aura:attribute name="averageComision" type="String" default="-" />
+  <aura:attribute name="mostUsedMedioDePago" type="String" default="-" />
+  <aura:attribute name="productSoldMostTimes" type="String" default="-" />
+
+  <aura:attribute
+    name="columns"
+    type="List"
+    default="[{'fieldName':'Nro_Factura__c','label':'Nº Factura','type':'number'}, {'fieldName':'Nro_Recibo__c','label':'Nº Recibo','type':'number'}, {'fieldName':'Base_de_comision__c','label':'Base de comisión',type: 'currency', typeAttributes: { currencyCode: 'ARS', maximumSignificantDigits: 2}}, {'fieldName':'Porcentaje_comision__c','label':'% comisión','type':'percentage'}, {'fieldName':'Medio_de_pago__c','label':'Medio de pago','type':'text'}]"
+  />
+
+  <lightning:layout
+    multipleRows="true"
+    horizontalAlign="center"
+    verticalAlign="center"
+  >
+    <!-- 2 charts + something in middle-->
+    <lightning:layoutItem size="8" padding="around-small">
+      <lightning:card title="Resumen de ventas" class="slds-text-heading_medium">
+        <lightning:layout multipleRows="true" horizontalAlign="space">
+          <lightning:layoutItem class="slds-item" padding="around-small" size="12">
+            <p style="font-size: 2vw; text-align: center; text-transform: capitalize; ">%usuario% — {!v.periodOfSimulDate}</p>
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="around-small" size="4">
+            <c:cardWithStat cardTitle="Total de comisiones" cardContent="{!v.totalSales}"/>
+          </lightning:layoutItem>
+          <!-- 
+          <lightning:layoutItem padding="around-small" size="4">
+            <c:cardWithStat cardTitle="Comisiones de productos" cardContent="{!v.totalProductSales}"/>
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="around-small" size="4">
+            <c:cardWithStat cardTitle="Comisiones manuales" cardContent="{!v.salesNoProduct}"/>
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="around-small" size="4">
+            <c:cardWithStat cardTitle="Producto con más comisiones" cardContent="{!v.mostComisionesProduct}"/>
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="around-small" size="4">
+            <c:cardWithStat cardTitle="Comisión promedio" cardContent="{!v.averageComision}"/>
+          </lightning:layoutItem>
+          -->
+        </lightning:layout>
+      </lightning:card>
+    </lightning:layoutItem>
+    <lightning:layoutItem size="4" padding="around-small">
+      <div style="width: 30vw">
+        <canvas id="first-chart" />
+      </div>
+      <hr />
+      <div style="width: 30vw">
+        <canvas id="second-chart" />
+      </div>
+    </lightning:layoutItem>
+
+    <!-- Global results -->
+    <!--
+    <lightning:layoutItem size="4" padding="around-small">
+      <c:cardWithStat cardTitle="Producto más veces vendido" cardContent="{!v.productSoldMostTimes}" />
+      <c:cardWithStat cardTitle="Medio de pago más usado" cardContent="{!v.mostUsedMedioDePago}" />
+    </lightning:layoutItem>
+    -->
+    <!-- Datatable breakdown-->
+    <lightning:layoutItem size="10" padding="around-small">
+      <lightning:datatable
+        keyField="ventaid"
+        data="{!v.allTheSalesData}"
+        columns="{!v.columns}"
+        hideCheckboxColumn="true"
+      />
+    </lightning:layoutItem>
+
+    <!-- Further details-->
+
+  </lightning:layout>
+</aura:component>

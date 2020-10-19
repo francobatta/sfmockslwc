@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="amountSold" type="Integer" default="500000" />
+    <aura:handler name="change" value="{!v.amountSold}" action="{!c.setSellerRanking}"/>
+    <aura:attribute name="sellerRanking" type="String" default="no determinada" />
+
+    <lightning:layout multipleRows="true" horizontalAlign="space">
+    <lightning:layoutItem flexibility="grow" size="12" padding="around-small">
+        <lightning:slider label="Cantidad vendida" max="1000000" step="1000" type="horizontal" value="{!v.amountSold}" />
+    </lightning:layoutItem>
+
+    <lightning:layoutItem flexibility="grow" size="8" mediumDeviceSize="10" largeDeviceSize="8" padding="around-small">
+        <lightning:card title="Resultado" iconName="utility:advanced_function" variant="base">
+            <div class="slds-card__body_inner">
+                <div class="slds-text-align_center" style="font-size: 1.5rem;">
+                    <p>${!v.amountSold}</p>
+                </div>
+                <div class="slds-text-align_center" style="font-size: 1rem;">
+                    <p>Calificación: {!v.sellerRanking}</p>
+                </div>
+            </div>
+        </lightning:card>
+    </lightning:layoutItem>
+    <lightning:layoutItem flexibility="grow" size="12">
+        <c:datatableEditable />
+    </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

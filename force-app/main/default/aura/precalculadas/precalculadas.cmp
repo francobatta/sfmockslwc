@@ -1,0 +1,24 @@
+<aura:component>
+  <aura:attribute name="customSalesData" type="List" />
+
+  <lightning:layout horizontalAlign="center" verticalAlign="center">
+    <lightning:layoutItem size="9" padding="around-small">
+      <lightning:input
+        type="number"
+        aura:id="precalculadas"
+        name="precalculadas"
+        label="Entrar comisiones extra precalculadas"
+        value="10000"
+        formatter="currency"
+      />
+    </lightning:layoutItem>
+    <lightning:layoutItem size="3" padding="around-small">
+      <lightning:button
+        class="slds-size_full"
+        variant="brand"
+        label="Agregar monto de comisión"
+        onclick="{! c.handleClick }"
+      />
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

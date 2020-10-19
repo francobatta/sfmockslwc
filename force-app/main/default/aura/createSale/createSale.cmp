@@ -1,0 +1,104 @@
+<aura:component implements="force:hasRecordId">
+  <aura:attribute name="baseDeComision" type="Decimal" default="0" />
+  <aura:attribute name="porcentajeDeComision" type="Decimal" default="0" />
+
+  <aura:attribute name="customSalesData" type="List" />
+
+  <aura:attribute
+    name="toastIsHiddenClassName"
+    type="String"
+    default="slds-hidden"
+  />
+    <!--
+  <lightning:recordForm
+    aura:id="newSalesForm"
+    objectApiName="Comision__c"
+    layoutType="Full"
+    columns="2"
+    onsubmit="{!c.handleSubmit}"
+    onsuccess="{!c.handleSuccess}"
+  />
+-->
+  <!-- only show form if notification has been cleared -->
+
+    <lightning:recordEditForm
+      aura:id="newSalesForm"
+      objectApiName="Comision__c"
+      onsubmit="{!c.addSaleToArray}"
+      density="comfy"
+    >
+
+      <lightning:messages />
+      <lightning:layout multipleRows="true" horizontalAlign="space">
+        <lightning:layoutItem size="6" padding="around-small">
+          <lightning:slider
+            label="Base de comisión"
+			      max="10000"
+			      min="100"
+            step="100"
+            type="horizontal"
+            value="{!v.baseDeComision}"
+          />
+          <div class="slds-text-align_center" style="font-size: 2rem">
+            <p>${!v.baseDeComision}</p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="around-small">
+          <lightning:slider
+            label="% de comisión"
+			      max="100"
+			      min="1"
+            step="0.1"
+            type="horizontal"
+            value="{!v.porcentajeDeComision}"
+          />
+          <div class="slds-text-align_center" style="font-size: 2rem">
+            <p>{!v.porcentajeDeComision}%</p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" padding="around-small">
+          <lightning:inputField fieldName="Inicio_de_periodo__c" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" padding="around-small">
+          <lightning:inputField fieldName="Fin_de_periodo__c" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" padding="around-small">
+          <lightning:inputField fieldName="Dias_de_mora__c" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" padding="around-small">
+          <lightning:inputField fieldName="Producto__c" />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" padding="around-small">
+          <lightning:inputField fieldName="Medio_de_pago__c" />
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="12" padding="around-small" flexibility="grow">
+          <lightning:button
+          class="slds-button_stretch"
+          type="submit"
+          label="Crear venta simulada"
+          variant="brand"
+        />
+
+        </lightning:layoutItem>
+      </lightning:layout>
+  </lightning:recordEditForm>
+
+	<aura:if isTrue="{!v.toastIsHiddenClassName == ''}">
+		<lightning:spinner alternativeText="Cargando..." size="large" />
+	</aura:if>
+  <div class="{!v.toastIsHiddenClassName}" id="notificationToastClassic">
+    <div class="slds-notify_container slds-is-relative">
+      <div class="slds-notify_toast slds-theme_success" role="status">
+        <span class="slds-assistive-text">success</span>
+        <span
+          class="slds-icon_container slds-icon-utility-success slds-var-m-right_small slds-no-flex slds-align-top"
+          title="Description of icon when needed"
+        >
+          <lightning:icon iconName="action:approval" />
+        </span>
+        <h2 class="slds-text-heading_small">Venta simulada creada con éxito</h2>
+      </div>
+    </div>
+  </div>
+</aura:component>

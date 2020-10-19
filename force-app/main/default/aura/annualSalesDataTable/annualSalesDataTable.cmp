@@ -1,0 +1,52 @@
+<aura:component controller="SimuladorFullController">
+  <aura:attribute
+    name="summaryColumns"
+    type="List"
+    default="[{'fieldName':'month','label':'Mes','type':'text'}, {'fieldName':'sum','label':'Comision única',type: 'currency', typeAttributes: { currencyCode: 'ARS', maximumSignificantDigits: 6}}]"
+  />
+  <aura:attribute name="summaryData" type="List" />
+
+
+  <aura:attribute name="detailData" type="List" />
+  <aura:attribute name="detailTotal" type="Decimal" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+  <aura:attribute name="simulDate" type="Date" />
+
+  <lightning:layout class="slds-wrap" verticalAlign="center" horizontalAlign="center">
+    <lightning:layoutItem size="9" padding="around-small">
+      <div class="slds-illustration slds-illustration_small">
+        <div class="slds-text-longform">
+          <div class="slds-text-heading_large">Vista de comisiones</div>
+          <div class="slds-text-body_regular">
+            <!--<p>Panel de comisiones de {!v.username}</p>-->
+            <p>Panel de comisiones de %usuario%</p>
+          </div>
+        </div>
+      </div>
+    </lightning:layoutItem>
+    <lightning:layoutItem size="3" padding="around-small">
+      <lightning:input
+        type="date"
+        name="mesDeSimulacion"
+        placeholder="Periodo de simulación"
+        onchange="{!c.doInit}"
+        value="{!v.simulDate}"
+      />
+	</lightning:layoutItem>
+	<lightning:layoutItem size="10" padding="around-small">
+		<lightning:datatable
+		  keyField="Id"
+		  data="{!v.summaryData}"
+		  columns="{!v.summaryColumns}"
+		  onrowselection="{!c.onRowSelection}"
+		  maxRowSelection="1"
+		/>
+	  </lightning:layoutItem>
+  
+  </lightning:layout>
+
+    <aura:if isTrue="{!not(empty(v.detailData))}">
+      <c:salesDataTable salesData="{!v.detailData}"/>
+    </aura:if>
+</aura:component>
