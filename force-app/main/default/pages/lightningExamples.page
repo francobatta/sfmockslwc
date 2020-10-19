@@ -1,0 +1,14 @@
+<apex:page lightningStyleSheets="true" sidebar="false">
+	<apex:includeLightning />
+		<div id="slider" />
+	<script>
+		$Lightning.use("c:LWCwrapper",  function()  {
+			$Lightning.createComponent("c:slider",
+				{  },
+				"slider", // div id
+				function(cmp)  { }
+			);
+			}
+		);
+	</script>
+	</apex:page>

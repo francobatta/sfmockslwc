@@ -1,0 +1,22 @@
+<apex:page sidebar="false" controller="AccountCasesController" lightningStylesheets="true">
+	<apex:slds />
+	<div class="slds-grid slds-gutters">
+		<div class="slds-col">	  
+			<c:generalChartJs title="Amount of cases per account1" chartType="pie" allData="{!resultJson}" width="30" dataAccessors="amountOfCases" labelAccessors="acc.Name" />
+		</div>
+		<div class="slds-col">
+			<c:generalChartJs title="Amount of cases per account2" chartType="doughnut" allData="{!resultJson}" width="30" dataAccessors="amountOfCases" labelAccessors="acc.Name" />
+		</div>
+		<div class="slds-col">	  
+			<c:generalChartJs title="Amount of cases per account3" chartType="bar" allData="{!resultJson}" width="30" dataAccessors="amountOfCases" labelAccessors="acc.Name" generalLabel="Amount of cases" />				
+		</div>
+	</div>
+	<div class="slds-grid slds-gutters">
+		<div class="slds-col">	  
+			<c:generalChartJs title="Amount of cases per account4" chartType="horizontalBar" allData="{!resultJson}" width="30" dataAccessors="amountOfCases" labelAccessors="acc.Name" generalLabel="Amount of cases" />				
+		</div>
+		<div class="slds-col">	  
+			<c:generalChartJs title="Amount of cases per account5" chartType="polarArea" allData="{!resultJson}" width="30" dataAccessors="amountOfCases" labelAccessors="acc.Name" generalLabel="Amount of cases" />				
+		</div>
+	</div>
+</apex:page>

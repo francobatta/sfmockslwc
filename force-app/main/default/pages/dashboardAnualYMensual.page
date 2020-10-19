@@ -1,0 +1,14 @@
+<apex:page lightningStyleSheets="true" sidebar="false">
+	<apex:includeLightning />
+		<div id="dashboards" />
+	<script>
+		$Lightning.use("c:LWCwrapper",  function()  {
+			$Lightning.createComponent("c:annualSalesDataTable",
+				{  },
+				"dashboards", // div id
+				function(cmp)  { }
+			);
+			}
+		);
+	</script>
+	</apex:page>

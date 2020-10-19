@@ -1,0 +1,17 @@
+<apex:page sidebar="false">
+	<apex:includeLightning />
+	<p>Hola desde una visualforce</p>
+	<div id="lwcHere" />
+	<script>
+    	$Lightning.use("c:LWCwrapper", function() {
+        	$Lightning.createComponent("c:simulacionLWC",
+              { label : "Press Me!" },
+              "lwcHere",
+              function(cmp) {
+                alert("button was created");
+                // do some stuff
+              }
+          );
+        });
+	</script>
+</apex:page>

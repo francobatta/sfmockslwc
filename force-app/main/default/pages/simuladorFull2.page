@@ -1,0 +1,14 @@
+<apex:page lightningStyleSheets="true" sidebar="false">
+	<apex:includeLightning />
+		<div id="simulador2" />
+	<script>
+		$Lightning.use("c:LWCwrapper",  function()  {
+			$Lightning.createComponent("c:simuladorFull2",
+				{  },
+				"simulador2", // div id
+				function(cmp)  { }
+			);
+			}
+		);
+	</script>
+	</apex:page>
